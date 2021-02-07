@@ -71,7 +71,7 @@ public class PointPickup extends Pickup {
         Graphics2D graphics = gameInstance.getGameGraphics();
         graphics.setColor(Color.ORANGE);
 
-        final int diff = (PacmanGame.GRID_SIZE/2);
+        final int diff = (PacmanGame.GRID_SIZE/2) - pointCircleRadius;
         graphics.fill(new Ellipse2D.Double(this.x + diff, this.y + diff, pointCircleRadius*2, pointCircleRadius*2));
     }
 }
