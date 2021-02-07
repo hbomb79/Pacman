@@ -135,40 +135,39 @@ public abstract class GhostEntity extends Entity {
      * @return The target point to track
      */
     private Point getTargetGridPosition() {
-        if(currentState == STATE.EATEN) {
-            return this.gridSpawnPoint;
-        }
-
         PacmanEntity target = gameInstance.getEntityController().getPlayer();
         int x = target.getX();
         int y = target.getY();
 
         // Transform to grid based by rounding to nearest multiple of the grid size
         int gridSize = PacmanGame.GRID_SIZE;
-        Point p = new Point(x / gridSize, y / gridSize);
-
-        if(!target.getIsVulnerable()) {
-            // We want to calculate an avoidance path away from this
-            // point so we aren't eaten by the Pacman.
-            return gameInstance.getMapController()
-                    .getSelectedMap()
-                    .calculateFlankRoute(p, 5, target.getDirection());
-        } else {
-            return p;
-        }
+        return new Point(x / gridSize, y / gridSize);
     }
 
     /**
      * Gets the position of the Pacman entity, grid relative, and attempts to use the {@code PathFinder}
      * class to seek the entity out.
      *
-     * @param targetPoint The location that the ghost is trying to seek to
+     * @param proposedPoint The location that the ghost is trying to seek to
      */
-    protected void calculatePath(Point targetPoint) {
+    protected void calculatePath(Point proposedPoint) {
+        Point targetPoint;
+        PacmanEntity pacman = gameInstance.getEntityController().getPlayer();
+
+        // If pacman is invulnerable; flee. If we've been eaten, return home.
         int gridSize = PacmanGame.GRID_SIZE;
+        if(currentState == STATE.EATEN) {
+            targetPoint = this.gridSpawnPoint;
+        } else if(!pacman.getIsVulnerable()) {
+            targetPoint = gameInstance.getMapController()
+                    .getSelectedMap()
+                    .calculateFlankRoute(new Point(pacman.getX() / gridSize, pacman.getY() / gridSize), 5, pacman.getDirection());
+        } else {
+            targetPoint = proposedPoint;
+        }
+
         int gridX = this.x / gridSize;
         int gridY = this.y / gridSize;
-
         try {
             PathFinder pathFinder = new PathFinder(gameInstance, PATH_FINDING_MAX_DEPTH);
             pathfindingRoute = pathFinder.calculatePath(gridX, gridY, targetPoint.x, targetPoint.y);
