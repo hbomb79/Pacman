@@ -462,6 +462,8 @@ public abstract class GhostEntity extends Entity {
 
                 EffectController fx = gameInstance.getEffectsController();
                 fx.spawnEffect(new TextFadeEffect(this.x, this.y, new Text("+5000").setSize(10), Color.BLUE, 15));
+
+                gameInstance.ghostDeathSoundEffect.playOnce(gameInstance.SOUND_EFFECT_VOLUME);
             }
 
             return true;

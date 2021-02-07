@@ -162,7 +162,24 @@ public class PacmanGame extends CoreEngine {
     /**
      * The SoundEffect to use when the player acquires points
      */
-    protected final SoundEffect scoreSoundEffect;
+    public final SoundEffect scoreSoundEffect;
+
+    /**
+     * The SoundEffect to use when the player eats fruit
+     */
+    public final SoundEffect fruitSoundEffect;
+
+    /**
+     * The SoundEffect to use when the player eats a ghost
+     */
+    public final SoundEffect ghostDeathSoundEffect;
+
+    /**
+     * The SoundEffect to use when the player loses all lives and the game is over
+     */
+    public final SoundEffect gameOverSoundEffect;
+
+    public final float SOUND_EFFECT_VOLUME = -15f;
 
     /**
      * The Scoreboard instance used to track high-scores
@@ -179,6 +196,10 @@ public class PacmanGame extends CoreEngine {
         super(WIDTH, HEIGHT, WINDOW_TITLE);
 
         scoreSoundEffect = SoundEffect.loadSoundEffect("resources/score.wav");
+        fruitSoundEffect = SoundEffect.loadSoundEffect("resources/fruit.wav");
+        ghostDeathSoundEffect = SoundEffect.loadSoundEffect("resources/eatghost.wav");
+        gameOverSoundEffect = SoundEffect.loadSoundEffect("resources/gameover.wav");
+
         scoreboard = Scoreboard.loadScoreboard();
     }
 
@@ -197,7 +218,7 @@ public class PacmanGame extends CoreEngine {
      * pickups a point
      */
     public void playScoreSoundEffect() {
-        scoreSoundEffect.playOnce(-15f);
+        scoreSoundEffect.playOnce(SOUND_EFFECT_VOLUME);
     }
 
     /**
@@ -372,6 +393,7 @@ public class PacmanGame extends CoreEngine {
     public void playerDeath(Player player) {
         player.notifyLoss();
         scoreboard.addNewScore(player.getScore());
+        gameOverSoundEffect.playOnce(SOUND_EFFECT_VOLUME);
         scheduleGameStateChange(STATE.DEATH);
     }
 

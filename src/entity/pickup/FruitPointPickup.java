@@ -86,6 +86,7 @@ public class FruitPointPickup extends Pickup {
             player.increaseScore(pointPickupScore);
 
             pacman.makeInvulnerable(INVULNERABILITY_DURATION);
+            gameInstance.fruitSoundEffect.playOnce(gameInstance.SOUND_EFFECT_VOLUME);
 
             EffectController fx = gameInstance.getEffectsController();
             fx.spawnEffect(new TextFadeEffect(this.x, this.y, new Text("+"+this.pointPickupScore).setSize(10 + (this.pointPickupScore/100)), Color.YELLOW, 10));
