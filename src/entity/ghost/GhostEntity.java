@@ -391,7 +391,6 @@ public abstract class GhostEntity extends Entity {
         }
 
         // Based on our current state, swap out the sprites we'll be using when drawing the pacman.
-        System.out.println("Current state: " + currentState);
         this.activeSprites = switch(currentState) {
             case FLEEING -> this.fleeingSprites;
             case EATEN -> this.eatenSprites;
