@@ -7,22 +7,46 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * The SoundEffect class allows a simple and easy interface to use when
+ * loading, playing, or looping sound effects.
+ *
+ * @author Harry Felton
+ */
 public class SoundEffect {
-    // Format
-    private AudioFormat format;
+    /**
+     * Format of the sound effect
+     */
+    private final AudioFormat format;
 
-    // Audio Data
-    private byte[] data;
+    /**
+     * The audio data that makes up the sound effect
+     */
+    private final byte[] data;
 
-    // Buffer Length
-    private long bufferLength;
+    /**
+     * The length of the data buffer for this sound effect
+     *
+     * @see #data
+     */
+    private final long bufferLength;
 
+    /**
+     * The volume that should be used when playing this sound effect; can be set manually,
+     * or overridden when giving the play command
+     *
+     * @see #setDecibelVolume(float)
+     * @see #playLoop(float)
+     * @see #playOnce(float)
+     */
     private float decibelVolume = 1.0f;
 
-    // Loop Clip - usually null unless the clip
-    // is played in a looped fashion, in which case
-    // this is populated with a Clip (from AudioSystem.getClip) which
-    // is loaded with this sound effect and told to loop.
+    /**
+     * Loop Clip - usually null unless the clip
+     * is played in a looped fashion, in which case
+     * this is populated with a Clip (from AudioSystem.getClip) which
+     * is loaded with this sound effect and told to loop.
+     */
     private Clip mLoopClip;
 
     /**
@@ -43,10 +67,26 @@ public class SoundEffect {
         mLoopClip = clip;
     }
 
+    /**
+     * Returns the volume (in decibels) that this audio clip will be played at unless
+     * a different volume is specified when giving the play command
+     *
+     * @return The default decibel volume
+     * @see #playOnce(float)
+     * @see #playLoop(float)
+     */
     public float getDecibelVolume() {
         return decibelVolume;
     }
 
+    /**
+     * Sets the volume used when playing this audio clip, unless a different value is given when
+     * playing the sound clip.
+     *
+     * @param decibelVolume The volume (decibels) to play this clip at unless specified otherwise
+     * @see #playLoop(float)
+     * @see #playOnce(float)
+     */
     public void setDecibelVolume(float decibelVolume) {
         this.decibelVolume = decibelVolume;
     }
@@ -98,6 +138,14 @@ public class SoundEffect {
         mLoopClip = null;
     }
 
+    /**
+     * A private method used to simplify the play(Once/Loop) methods. This method will create an
+     * AudioSystem clip, based on the stream currently loaded and the volume provided to this method.
+     *
+     * @param volume The volume (decibels) to play this clip at
+     * @return The clip to be played
+     * @throws SoundEffectException Thrown if an exception occurs when creating the Clip.
+     */
     private Clip generateClip(float volume) throws SoundEffectException {
         try {
             // Load clip
@@ -115,6 +163,11 @@ public class SoundEffect {
         }
     }
 
+    /**
+     * Plays this sound effect once using the volume provided
+     *
+     * @param volume The volume (decibels) to play at
+     */
     public void playOnce(float volume) {
         Clip c;
         try {
@@ -125,10 +178,22 @@ public class SoundEffect {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Plays this sound effect once with the default volume specified by {@code decibelVolume}
+     *
+     * @see #decibelVolume
+     */
     public void playOnce() {
         playOnce(decibelVolume);
     }
 
+    /**
+     * Loops the sound effect at the volume provided
+     *
+     * @param volume The decibel volume to play at
+     * @throws SoundEffectException Thrown when a failure occurs during the creation of the audio clip
+     */
     public void playLoop(float volume) throws SoundEffectException {
         Clip c = getLoopClip();
         if(c == null) {
@@ -150,16 +215,36 @@ public class SoundEffect {
         c.setFramePosition(0);
         c.start();
     }
+
+    /**
+     * Loops the sound effect at the default volume specified by {@code decibelVolume}
+     *
+     * @throws SoundEffectException Thrown if the {@code playLoop(float)} method throws this exception.
+     * @see #decibelVolume
+     * @see #playOnce(float)
+     */
     public void playLoop() throws SoundEffectException {
         playLoop(decibelVolume);
     }
 
+    /**
+     * Stops looping this audio if it's currently looping.
+     *
+     * @see #mLoopClip
+     */
     public void stopLoop() {
         if(mLoopClip != null) {
             mLoopClip.stop();
         }
     }
 
+    /**
+     * Loads the sound effect by opening an audio stream at the path provided, and loading the audio
+     * data in to a {@code SoundEffect} instance.
+     *
+     * @param path The file to load the audio from
+     * @return The SoundEffect instance used to play/loop this audio
+     */
     public static SoundEffect loadSoundEffect(String path) {
         try {
             File file = new File(path);

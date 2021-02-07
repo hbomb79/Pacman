@@ -164,6 +164,9 @@ public class PacmanGame extends CoreEngine {
      */
     protected final SoundEffect scoreSoundEffect;
 
+    /**
+     * The Scoreboard instance used to track high-scores
+     */
     protected final Scoreboard scoreboard;
 
     /**
@@ -509,6 +512,11 @@ public class PacmanGame extends CoreEngine {
         return fx;
     }
 
+    /**
+     * Fetch the scoreboard instance from this game instance
+     *
+     * @return Returns the {@code Scoreboard} instance
+     */
     public Scoreboard getScoreboard() {
         return scoreboard;
     }

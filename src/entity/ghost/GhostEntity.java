@@ -442,9 +442,10 @@ public abstract class GhostEntity extends Entity {
     @Override
     public boolean collidedWithBy(Rectangle collisionBox, CollisionElement source, Rectangle infringedBoundary) {
         if(source instanceof PacmanEntity) {
+            // Block the processing of a collision if we've been eaten/are returning to spawn
             if(this.currentState == STATE.EATEN) return false;
 
-            // Collided with player, game over.
+            // Collided with player, game over.. or if the Pacman is invulnerable; the ghost returns to it's spawn point
             PacmanEntity pacman = (PacmanEntity)source;
             Player player = pacman.getPlayer();
             if(pacman.getIsVulnerable()) {

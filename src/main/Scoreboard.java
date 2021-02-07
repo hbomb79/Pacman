@@ -86,11 +86,14 @@ public class Scoreboard implements Serializable {
             Scoreboard scoreboard = (Scoreboard) in.readObject();
             in.close();
 
+            System.out.println("Scoreboard load successful! Returning existing scoreboard");
             return scoreboard;
         } catch (Exception e) {
             System.err.println("Failed to load scoreboard from file.. " + e.getMessage());
+            System.err.println("This error is only a concern if a top-score should exist; if the game hasn't been played before, this error is expected!");
             e.printStackTrace();
 
+            System.out.println("Returning new scoreboard!");
             return new Scoreboard();
         }
     }
@@ -107,6 +110,8 @@ public class Scoreboard implements Serializable {
             out.writeObject(scoreboard);
             out.flush();
             out.close();
+
+            System.out.println("Updated Scoreboard in local fs");
         } catch (Exception e) {
             System.err.println("Failed to save scoreboard to file.. " + e.getMessage());
             e.printStackTrace();
