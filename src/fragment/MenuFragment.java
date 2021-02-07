@@ -51,7 +51,7 @@ public class MenuFragment extends Fragment {
         Runnable startSinglePlayer = () -> gameInstance.startGame();
 
         components = new Component[]{
-                new Label(gameInstance, new Text("Pacman!").setSize(30)).center(true, true, 0, -60).setColor(Color.yellow),
+                new Label(gameInstance, new Text("Pacman!").setSize(30)).center(true, true, 0, -45).setColor(Color.yellow),
                 new Button(gameInstance, spText).center(true, true, 0,-25).setCallback(startSinglePlayer),
                 new Button(gameInstance, quitText).center(true, true, 0, 25).setCallback(gameInstance::quitGame)
         };

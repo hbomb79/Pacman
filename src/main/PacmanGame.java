@@ -290,12 +290,20 @@ public class PacmanGame extends CoreEngine {
     @Override
     public void keyPressed(KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.VK_ESCAPE && gameState == STATE.GAME) {
-            paused = !paused;
-            // Refresh fragment-based scenes
-            changeGameState(gameState);
+            togglePause();
         } else if (!paused) {
             entity.keyPressed(event);
         }
+    }
+
+    /**
+     * Toggles the pause state of this game instance, and refreshes the scene to reflect this
+     * change in pause
+     */
+    public void togglePause() {
+        paused = !paused;
+        // Refresh fragment-based scenes
+        changeGameState(gameState);
     }
 
     /**
