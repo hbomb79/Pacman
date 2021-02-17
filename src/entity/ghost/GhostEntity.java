@@ -185,6 +185,8 @@ public abstract class GhostEntity extends Entity {
      * This function is called by the PacmanEntity when it's state has changed; this allows all the ghosts
      * to re-evaluate their status (tracking or fleeing) based on a callback, rather than polling the entity
      * for it's state every tick.
+     *
+     * @param e The PacmanEntity instance that brought this state change on
      */
     public void pacmanStateChange(PacmanEntity e) {
         STATE newState = e.getIsVulnerable() ? STATE.TRACKING : STATE.FLEEING;

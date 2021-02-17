@@ -147,7 +147,6 @@ public class Map {
         int amountOfFruit = Math.max(1, r.nextInt(5 - playerLives));
 
         ArrayList<Integer> fruitPoints = new ArrayList<>();
-        System.out.println("Attempting to spawn: " + amountOfFruit + " fruit");
         int pointsLength = points.length;
         for(int i = 0; i < amountOfFruit; i++) {
             int point;

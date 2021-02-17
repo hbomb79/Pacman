@@ -110,7 +110,7 @@ public class SoundEffect {
     }
 
     /**
-     * Get the length of the data buffer currently occupying the {@data} field.
+     * Get the length of the data buffer currently occupying the {@code data} field.
      *
      * @return The length of the data array
      */
