@@ -426,7 +426,7 @@ public class PacmanGame extends CoreEngine {
      */
     public void startGame() {
         this.player = new Player();
-        mapController.selectMap(0);
+        mapController.selectMap(1);
         entity.initWithPlayer(this.player);
 
         scheduleGameStateChange(STATE.GAME);

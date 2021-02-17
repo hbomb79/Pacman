@@ -320,7 +320,7 @@ public abstract class GhostEntity extends Entity {
         if(pathfindingRoute == null) {
             // The path finding couldn't find a path to our target, give it a dummy target instead.
             queueRandomTurn();
-            nextTarget = pathfindingRoute.walkSteps(2);
+            nextTarget = pathfindingRoute != null ? pathfindingRoute.walkSteps(2) : null;
         }
 
         // No target to trace, this can be because we're already at our destination, or because
@@ -459,6 +459,7 @@ public abstract class GhostEntity extends Entity {
             } else {
                 // This ghost has been eaten.
                 currentState = STATE.EATEN;
+                calculatePath();
                 player.increaseScore(5000);
 
                 EffectController fx = gameInstance.getEffectsController();
